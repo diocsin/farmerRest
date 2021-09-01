@@ -2,16 +2,16 @@ package by.belarusian.farmer.controller;
 
 import by.belarusian.farmer.exception.HarvestNotFoundException;
 import by.belarusian.farmer.model.Harvest;
-import by.belarusian.farmer.model.fruits.Banana;
 import by.belarusian.farmer.service.HarvestsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ public class HarvestsController {
     private final HarvestsService service;
 
     @Autowired
-    public HarvestsController(HarvestsService service) {
+    public HarvestsController(@Qualifier("harvestsServiceImpl") HarvestsService service) {
         this.service = service;
     }
 
@@ -44,11 +44,6 @@ public class HarvestsController {
         return harvest.map(ResponseEntity::ok).orElseThrow(HarvestNotFoundException::new);
     }
 
-    @PostMapping("/createHarvest")
-    public ResponseEntity<?> createHarvest(@RequestBody final String name) {
-        Optional<Harvest> fruit = service.createHarvest(name);
-        return fruit.map(ResponseEntity::ok).orElseThrow(HarvestNotFoundException::new);
-    }
 
     @GetMapping("/getHarvestsPagination")
     public ResponseEntity<?> getHarvestPagination(
@@ -66,17 +61,5 @@ public class HarvestsController {
         }
     }
 
-    @PostMapping("/saveBanana")
-    public ResponseEntity<?> saveBanana(@RequestBody Banana banana) {
-        try {
-            final Harvest harvest = service.saveBanana(banana);
-            System.out.println("Добавлен банан");
-            URI uri = MvcUriComponentsBuilder.fromController(getClass()).path("/getHarvest")
-                    .queryParam("id", banana.getId()).build().toUri();
-            return ResponseEntity.created(uri).body(harvest);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not save", e);
-        }
-    }
 
 }
