@@ -1,19 +1,15 @@
 package by.belarusian.farmer.dao;
 
 import by.belarusian.farmer.model.Harvest;
-import by.belarusian.farmer.utils.HarvestFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
-@Component
-public class HarvestDao {
+public interface HarvestDao {
 
-    private static final int AMOUNT_HARVESTS = 1000;
+    int AMOUNT_HARVESTS = 1000;
 
-    public static final List<Harvest> harvests = HarvestFactory.of(AMOUNT_HARVESTS);
+    List<Harvest> getAll();
 
-    public List<Harvest> getAll() {
-        return harvests;
-    }
+    Optional<Harvest> create(String name);
 }

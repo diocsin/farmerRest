@@ -44,6 +44,12 @@ public class HarvestsController {
         return harvest.map(ResponseEntity::ok).orElseThrow(HarvestNotFoundException::new);
     }
 
+    @PostMapping("/createHarvest")
+    public ResponseEntity<?> createHarvest(@RequestBody final String name) {
+        Optional<Harvest> fruit = service.createHarvest(name);
+        return fruit.map(ResponseEntity::ok).orElseThrow(HarvestNotFoundException::new);
+    }
+
     @GetMapping("/getHarvestsPagination")
     public ResponseEntity<?> getHarvestPagination(
             @RequestParam(value = "offset", defaultValue = "0") final int offset,

@@ -1,7 +1,7 @@
 package by.belarusian.farmer.model;
 
 import by.belarusian.farmer.enums.Color;
-import by.belarusian.farmer.enums.Type;
+import by.belarusian.farmer.enums.HarvestType;
 
 public abstract class Berry extends Harvest {
 
@@ -9,7 +9,7 @@ public abstract class Berry extends Harvest {
     }
 
     public Berry(int weight, Color color) {
-        super(weight, color, Type.BERRIES);
+        super(weight, color, HarvestType.BERRIES);
 
     }
 

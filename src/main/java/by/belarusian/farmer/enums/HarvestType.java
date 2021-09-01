@@ -1,6 +1,6 @@
 package by.belarusian.farmer.enums;
 
-public enum Type {
+public enum HarvestType {
     VEGETABLES(1, "Овощи"),
     FRUITS(2, "Фрукты"),
     BERRIES(3, "Ягоды");
@@ -8,7 +8,7 @@ public enum Type {
     private final int index;
     private final String rusName;
 
-    Type(int index, String rusName) {
+    HarvestType(int index, String rusName) {
         this.index = index;
         this.rusName = rusName;
     }

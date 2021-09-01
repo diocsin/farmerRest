@@ -1,14 +1,14 @@
 package by.belarusian.farmer.model;
 
 import by.belarusian.farmer.enums.Color;
-import by.belarusian.farmer.enums.Type;
+import by.belarusian.farmer.enums.HarvestType;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class Harvest {
 
-    private final Type type;
+    private final HarvestType harvestType;
 
     private int weight;
 
@@ -19,15 +19,15 @@ public abstract class Harvest {
     private static AtomicLong atomicLong = new AtomicLong();
 
     public Harvest() {
-        type = null;
+        harvestType = null;
         id = atomicLong.incrementAndGet();
     }
 
-    public Harvest(int weight, Color color, Type type) {
+    public Harvest(int weight, Color color, HarvestType harvestType) {
         id = atomicLong.incrementAndGet();
         this.weight = weight;
         this.color = color;
-        this.type = type;
+        this.harvestType = harvestType;
     }
 
     public int getWeight() {
@@ -46,8 +46,8 @@ public abstract class Harvest {
         this.color = color;
     }
 
-    public Type getType() {
-        return type;
+    public HarvestType getType() {
+        return harvestType;
     }
 
 
@@ -70,12 +70,12 @@ public abstract class Harvest {
         if (o == null || getClass() != o.getClass()) return false;
         Harvest harvest = (Harvest) o;
         return weight == harvest.weight &&
-                type == harvest.type &&
+                harvestType == harvest.harvestType &&
                 color == harvest.color;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, weight, color);
+        return Objects.hash(harvestType, weight, color);
     }
 }

@@ -1,6 +1,6 @@
 package by.belarusian.farmer.model;
 
-import by.belarusian.farmer.enums.Type;
+import by.belarusian.farmer.enums.HarvestType;
 
 import java.util.*;
 import java.util.function.Function;
@@ -12,17 +12,17 @@ public class Basket {
 
     private int totalWeight;
     private List<Harvest> harvests;
-    private final Type type;
+    private final HarvestType harvestType;
     private static final int MAX = 1000;
 
     public Basket(List<Harvest> harvests) {
         this.harvests = harvests;
         this.totalWeight = takeTotalWeight(harvests);
-        type = Optional.ofNullable(harvests.get(0).getType()).orElse(null);
+        harvestType = Optional.ofNullable(harvests.get(0).getType()).orElse(null);
     }
 
     public static List<Basket> of(List<Harvest> harvests) {
-        Map<Type, List<Harvest>> collect = harvests.stream().collect(groupingBy(Harvest::getType));
+        Map<HarvestType, List<Harvest>> collect = harvests.stream().collect(groupingBy(Harvest::getType));
 
         Function<List<Harvest>, List<Basket>> harvestsBasketsFunction = harvestList -> {
             List<Basket> baskets = new ArrayList<>();
@@ -58,14 +58,14 @@ public class Basket {
 
     public boolean addHarvests(List<Harvest> harvests) {
         if (this.totalWeight + harvests.stream().mapToInt(Harvest::getWeight).sum() > 1000
-                || !harvests.stream().allMatch(harvest -> harvest.getType().equals(this.type))) {
+                || !harvests.stream().allMatch(harvest -> harvest.getType().equals(this.harvestType))) {
             return false;
         }
         return this.harvests.addAll(harvests);
     }
 
-    public Type getType() {
-        return type;
+    public HarvestType getType() {
+        return harvestType;
     }
 
     @Override
