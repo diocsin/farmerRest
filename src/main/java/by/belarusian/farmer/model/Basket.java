@@ -1,8 +1,12 @@
 package by.belarusian.farmer.model;
 
 import by.belarusian.farmer.enums.HarvestType;
+import by.belarusian.farmer.pattern.observer.EventManager;
 
+import java.awt.*;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -10,15 +14,19 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class Basket {
 
-    private int totalWeight;
+    private double totalWeight;
     private List<Harvest> harvests;
     private final HarvestType harvestType;
-    private static final int MAX = 1000;
+    private static final double MAX_WEIGHT = 1000;
+    public EventManager eventManager;
+    public PropertyChangeSupport support;
 
     public Basket(List<Harvest> harvests) {
         this.harvests = harvests;
         this.totalWeight = takeTotalWeight(harvests);
         harvestType = Optional.ofNullable(harvests.get(0).getType()).orElse(null);
+        this.eventManager = new EventManager("create", "addHarvest");
+        support = new PropertyChangeSupport(this);
     }
 
     public static List<Basket> of(List<Harvest> harvests) {
@@ -26,7 +34,7 @@ public class Basket {
 
         Function<List<Harvest>, List<Basket>> harvestsBasketsFunction = harvestList -> {
             List<Basket> baskets = new ArrayList<>();
-            int tempWeight = 0;
+            double tempWeight = 0;
             List<Harvest> tempHarvestList = new ArrayList<>();
             for (Harvest harvest : harvestList) {
                 if (harvest.getWeight() + tempWeight > 1000) {
@@ -44,11 +52,11 @@ public class Basket {
                 .collect(Collectors.toList());
     }
 
-    private int takeTotalWeight(List<Harvest> harvests) {
-        return harvests.stream().mapToInt(Harvest::getWeight).sum();
+    private double takeTotalWeight(List<Harvest> harvests) {
+        return harvests.stream().mapToDouble(Harvest::getWeight).sum();
     }
 
-    public int getTotalWeight() {
+    public double getTotalWeight() {
         return totalWeight;
     }
 
@@ -57,11 +65,14 @@ public class Basket {
     }
 
     public boolean addHarvests(List<Harvest> harvests) {
-        if (this.totalWeight + harvests.stream().mapToInt(Harvest::getWeight).sum() > 1000
+        if (this.totalWeight + harvests.stream().mapToDouble(Harvest::getWeight).sum() > 1000
                 || !harvests.stream().allMatch(harvest -> harvest.getType().equals(this.harvestType))) {
             return false;
         }
-        return this.harvests.addAll(harvests);
+        final boolean isAdded = this.harvests.addAll(harvests);
+        eventManager.notify("addHarvest", harvests);
+        support.firePropertyChange("addHarvestFromSupport", this.harvests, harvests);
+        return isAdded;
     }
 
     public HarvestType getType() {

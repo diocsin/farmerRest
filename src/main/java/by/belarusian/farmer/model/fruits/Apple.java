@@ -15,11 +15,6 @@ public class Apple extends Fruit {
     }
 
     @Override
-    public String toString() {
-        return "Apple{ " + getColor() + " " + getWeight() + "}";
-    }
-
-    @Override
     public String getRusName() {
         return rusName;
     }

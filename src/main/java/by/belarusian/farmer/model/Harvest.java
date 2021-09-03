@@ -10,7 +10,7 @@ public abstract class Harvest {
 
     private final HarvestType harvestType;
 
-    private int weight;
+    private double weight;
 
     private Color color;
 
@@ -30,11 +30,11 @@ public abstract class Harvest {
         this.harvestType = harvestType;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 

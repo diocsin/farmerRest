@@ -7,7 +7,7 @@ import java.util.Comparator;
 public class HarvestComparator implements Comparator <Harvest> {
     @Override
     public int compare(Harvest o1, Harvest o2) {
-        return Integer.compare(o1.getWeight(), o2.getWeight());
+        return Double.compare(o1.getWeight(), o2.getWeight());
     }
 
 
