@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiFunction;
 
-public class FruitsFactoryI implements IHarvestFactory {
+public class FruitsFactory implements IHarvestFactory {
 
     private final static Map<String, BiFunction<Integer, Color, Harvest>> fruitsMap = new HashMap<>();
     private final static Color[] colors = Color.values();
