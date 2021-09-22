@@ -3,6 +3,7 @@ package by.belarusian.farmer;
 import by.belarusian.farmer.enums.Color;
 import by.belarusian.farmer.enums.HarvestType;
 import by.belarusian.farmer.model.Basket;
+import by.belarusian.farmer.model.Bicycle;
 import by.belarusian.farmer.model.Farmer;
 import by.belarusian.farmer.model.Harvest;
 import by.belarusian.farmer.model.fruits.Apple;
@@ -53,6 +54,18 @@ class FarmerApplicationTests {
             b.support.addPropertyChangeListener("ad", farmer);
         });
         baskets.get(0).addHarvests(Collections.singletonList(harvestForAdd));
+    }
+
+    @Test
+    void builderBicycle() {
+        Bicycle bicycle = new Bicycle.Builder(Color.GREEN, 15000)
+                .isElectric(true)
+                .factoryName("Аист")
+                .farmer(new Farmer())
+                .build();
+
+        assertEquals(15000, bicycle.getWeight());
+
     }
 
 

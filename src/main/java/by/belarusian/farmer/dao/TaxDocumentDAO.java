@@ -20,4 +20,6 @@ public class TaxDocumentDAO implements ITaxDocumentDAO {
     public List<TaxDocument> getTaxDocuments() {
         return taxDocuments;
     }
+
+
 }
